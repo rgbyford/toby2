@@ -5,8 +5,8 @@ var apiKey = "hcyo5tkTZ3DscDXQurTlBlpUrTMhUpv1";
 
 function getContact(sPhone) {
     return (new Promise(function (resolve, reject) {
-        fetch('https://api.fullcontact.com/v3/person.enrich', {
-            method: 'POST',
+        fetch("https://api.fullcontact.com/v3/person.enrich", {
+            method: "POST",
             headers: {
                 "Authorization": `Bearer ${apiKey}`,
                 "Content-Type": "text/plain charset=utf-8"
@@ -20,13 +20,13 @@ function getContact(sPhone) {
         }).then(res => res.json()).catch(err => console.log("E1: " + err)).then(data => {
             //            console.log(data);
             resolve(data); // returns a promise with "data" as the "resolve"
-        }).catch(err => console.log('E2: ' + err));
+        }).catch(err => console.log("E2: " + err));
     }));
 };
 
 function addInfo() {
-    fetch('https://api.fullcontact.com/v3/person.enrich', {
-        method: 'POST',
+    fetch("https://api.fullcontact.com/v3/person.enrich", {
+        method: "POST",
         headers: {
             "Authorization": `Bearer ${apiKey}`
         },
@@ -53,17 +53,17 @@ app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
 });
 
-const clientId = 'FybJxut2EtRKshZJOAnABTOP76Mohn0Z';
-const clientSecret = 'gy96gJfYWJquzF5V9sbtwoo4hH0h1CTL';
-//const redirectUri = 'https://localhost:3000/redirect';
-const redirectUri = encodeURIComponent ('https://da4ab879.ngrok.io/redirect');
+const clientId = "FybJxut2EtRKshZJOAnABTOP76Mohn0Z";
+const clientSecret = "gy96gJfYWJquzF5V9sbtwoo4hH0h1CTL";
+//const redirectUri = "https://localhost:3000/redirect";
+const redirectUri = encodeURIComponent ("https://da4ab879.ngrok.io/redirect");
 
-var fullcontact = require('contacts-api-node')({
+var fullcontact = require("contacts-api-node")({
     clientId: clientId,
     clientSecret: clientSecret,
     redirectUri: redirectUri,
-    scope: 'contacts.read, tags.read',
-    userAgent: 'RogerTest2'
+    scope: "contacts.read, tags.read",
+    userAgent: "RogerTest2"
 });
 
 app.get("/", function (req, res) {
@@ -80,7 +80,7 @@ app.post("/redirect", function (req, res) {
 
 //console.log("FC oauth: " + fullcontact.oauth);
 //console.log ("FC keys: ", Object.keys (fullcontact.oauth));
-//console.log('ATU: ' + fullcontact.oauth.urls.accessToken);
+//console.log("ATU: " + fullcontact.oauth.urls.accessToken);
 var accessTknUri = fullcontact.oauth.urls.accessToken;
 var accessTkn;
 
@@ -96,7 +96,7 @@ const test = async () => {
 async function testFunc() {
     var realToken = await fullcontact.fetch(accessTknUri).then(function (res) {
         res.text().then(function (res2) {
-            console.log('R2: ' + res2);
+            console.log("R2: " + res2);
         });
     });
     //     const res = await fullcontact.contacts.contacts.get(accessTkn, {
@@ -110,13 +110,13 @@ async function testFunc() {
         //        "givenName": "Roger"
         "searchQuery": "first:Roger"
     }).then(function (res) {
-        console.log('Search result: ' + res);
+        console.log("Search result: " + res);
     }).catch(function (err) {
-        console.log('Search error: ' + err);
+        console.log("Search error: " + err);
     });
 }
 
-//console.log ('Test: ' + test);
+//console.log ("Test: " + test);
 var code;
 //authorize user
 
@@ -126,16 +126,16 @@ async function authorizeUser () {
     let url = `https://app.fullcontact.com/oauth/authorize?response_type=code`;
     url += `client_id=${clientId}&redirect_uri=${redirectUri}&scopes=contacts.read`;
     let result = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'clientId': clientId,
-            'clientSecret': clientSecret,
-            'redirectUri': redirectUri,
-            'scopes': 'contacts.read, tags.read'
+            "clientId": clientId,
+            "clientSecret": clientSecret,
+            "redirectUri": redirectUri,
+            "scopes": "contacts.read, tags.read"
         }
     });
     console.log ("fetch returns: ", result);
-//    console.log('Result: ' + res.size, res.timeout); 
+//    console.log("Result: " + res.size, res.timeout); 
 }
 // ).then(function (res) {
 //     }).catch(function (err) {
@@ -150,33 +150,33 @@ authorizeUser ().then (() => {
 //firstOAuth ();
 
 async function firstOAuth() {
-    await fetch('https://app.fullcontact.com/oauth/authorize', {
-        method: 'POST',
+    await fetch("https://app.fullcontact.com/oauth/authorize", {
+        method: "POST",
         headers: {
-            'clientId': clientId,
-            'clientSecret': clientSecret,
-            'redirectUri': redirectUri,
-            'scopes': 'contacts.read, tags.read'
+            "clientId": clientId,
+            "clientSecret": clientSecret,
+            "redirectUri": redirectUri,
+            "scopes": "contacts.read, tags.read"
         }
     }).then(function (res) {
         code = res.code;
-        console.log('Result: ' + res.size, res.timeout);
-        console.log('Keys: ' + Object.keys(res));
+        console.log("Result: " + res.size, res.timeout);
+        console.log("Keys: " + Object.keys(res));
     }).catch(function (err) {
         console.log("Error: " + err);
     });
 }
 
-var ClientOAuth2 = require('client-oauth2');
+var ClientOAuth2 = require("client-oauth2");
 
 //auth is an access token, I believe
 var auth = new ClientOAuth2({
     clientId: clientId,
     clientSecret: clientSecret,
-    //  accessTokenUri: 'https://github.com/login/oauth/access_token',
-    //  authorizationUri: 'https://github.com/login/oauth/authorize',
-    redirectUri: 'http://localhost:3000/redirect',
-    scopes: ['contacts.read', 'tags.read']
+    //  accessTokenUri: "https://github.com/login/oauth/access_token",
+    //  authorizationUri: "https://github.com/login/oauth/authorize",
+    redirectUri: "http://localhost:3000/redirect",
+    scopes: ["contacts.read", "tags.read"]
 });
 
 //console.log ("auth: ", auth);
@@ -189,13 +189,13 @@ async function getFromUri() {
 //testContacts ();
 
 async function testContacts() {
-    console.log('testing');
+    console.log("testing");
     const res = await fullcontact.oauth.exchangeAuthCode(code)
         .then(function (test) {
             //do something
             console.log(res);
             console.log(test);
         }).catch(function (err) {
-            console.log('Error:' + err)
+            console.log("Error:" + err)
         });
 }

@@ -7,14 +7,14 @@ let papa = require("papaparse");
 var fs = require("fs");
 
 function CJDone(results, file) {
-    console.log("CJD");
-    dbFunctions.writeFile ();
-//    dbFunctions.importNames(results.data);
+    console.log("CJD: ", results);
+    dbFunctions.writeFile();
+    //    dbFunctions.importNames(results.data);
     console.log("import done");
 }
 
-function CJRow (results, file) {
-    console.log ("CJR");
+function CJRow(results, file) {
+    console.log("CJR");
     dbFunctions.importNames(results.data);
 }
 
