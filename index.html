@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
+    <!--    <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase-admin.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-storage.js"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://apis.google.com/js/client:plusone.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+
+    <!--    <link rel="stylesheet" type="text/css" href="../css/style.css"> -->
+    <title>Contacts</title>
+</head>
+
+<body>
+    <input type="file" id="files" name="files[]" multiple />
+    <!--    <select id="tag-main"></select> -->
+    <p>Department: </p><select class="selectdd" id="tag-dept"></select>
+    <p>Subdept: </p><div class="sub-dept">
+    </div>
+    <form>
+        <p>Location: </p><input type="radio" id="locUSA" name="location" value="USA" checked> USA<br>
+        <input type="radio" id="locIntl" name="location" value="intl"> Intl<br>
+        <select class="selectdd" id="tag-loc"></select>
+        <input class="selectdd" type='button' value='Search' id='search'>
+        <p>Phone number:</p>
+        <input type="text" id='showface'>
+    </form>
+    <div id="stats"></div>
+    <div id="name-list" class="names"></div>
+    
+    <script src="./public/papaparse.js"></script>
+    <script src="./public/main.js"></script>
+    <script src="./public/database.js"></script>
+    <script src="./public/csvjson.js"></script>
+    <script src="./public/full-contact.js"></script>
+</body>
+
+</html>
