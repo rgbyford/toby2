@@ -21,7 +21,11 @@
 <form>
     <p>Location: </p><input type="radio" id="locUSA" name="location" value="USA" checked> USA<br>
     <input type="radio" id="locIntl" name="location" value="intl"> Intl<br>
-    <select class="selectdd" id="tag-loc"></select>
+    <select class="selectdd" id="tag-loc">
+        {{#each cats}}
+        <option value={{this}}>{{this}}</option>
+        {{/each}}
+    </select>
     <input class="selectdd" type='button' onclick='searchButton()' value='Search' id='search'>
     <p>Phone number:</p>
     <input type="text" id='showface'>
@@ -36,6 +40,16 @@
 -->
 
 <script>
+    {{!-- let asCats = [];
+    console.log("finding subcats");
+    asCats = dbFunctions.findSubCats("");
+    for (let i = 0; i < asCats.length; i++) {
+        $("#tag-dept").append($("<option>")
+            .val(asCats.sThisCat)
+            .html(asCats.sThisCat)
+        );
+    } --}}
+
     function searchButton() {
         console.log('SearchButton');
         const buttonInput = {};
@@ -63,7 +77,7 @@
     const upload = (file) => {
         console.log('upload: ', file);
         var formData = new FormData();
-        
+
         formData.append('avatar', file);
         formData.append('username', 'abc123');
 

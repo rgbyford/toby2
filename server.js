@@ -30,11 +30,24 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-csvJson = require ("./public/csvjson.js");
+csvJson = require("./public/csvjson.js");
+dbFunctions = require("./public/database.js");
+let aoCats = [{}];
 
 app.get("/contacts", function (req, res) {
+    let asCatStrings = [];
     console.log("get contacts");
-    res.render("index", {});
+    aoCats = dbFunctions.readCatsFile();
+    let j = 0;
+    aoCats.forEach(function (element) {
+        //        console.log (element.sIsSubCatOf);
+        if (element.sIsSubCatOf === "") {
+            asCatStrings[j++] = element.sCat;
+        }
+    });
+    res.render("index", {
+        cats: asCatStrings
+    });
 });
 
 var multer = require("multer");
@@ -49,11 +62,11 @@ app.use(function (req, res, next) {
 
 // I don"t know if the "avatar" here has to match what is in the put
 app.put("/contacts/import", upload.single("avatar"), function (req, res, next) {
-    console.log("put import contacts");
-    console.log("file: ", req.file);
+    // console.log("put import contacts");
+    // console.log("file: ", req.file);
     //req.file.filename gives the file name on the server
     // req.file.originalname gives the client file name
-    console.log("body: ", req.body);
+    // console.log("body: ", req.body);
     csvJson(req.file.filename);
     res.render("index", {});
 });

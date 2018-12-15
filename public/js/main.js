@@ -1,136 +1,4 @@
-//var sDept = ";
-//    var sMain = ";
-// USA is the default
-/*
-let aTagsMain = [
-    [".pp", "Prodigium"],
-    [".coc", "Cinema of Change"],
-    [".dis", "Don\"t know"],
-    [".ethn", "Ethnicity"],
-    [".gender", "gender"],
-    [".intellectual", "intellectual"],
-    [".id", "ideology"],
-    [".lang", "Language spoken"],
-    [".loc", "Location"],
-    [".net", "Shared network"],
-    ["..team", "Prodigium worker"],
-    [".research", "Researcher"],
-    [".sport", "Sports pro"]
-];
-*/
-let aTagsDept = [
-    ["any", "any"],
-    ["c", "cinematography"],
-    ["o", "costume"],
-    ["d", "directorial"],
-    ["e", "editorial"],
-    ["fx", "physical effects"],
-    ["m", "makeup"],
-    ["o", "outfitting"],
-    ["p", "producing"],
-    ["pd", "production design"],
-    ["w", "writing"]
-];
-let aasCinematograpy = [
-    ["1st-AC", "],
-    ["2nd-AC", "],
-    ["2nd-unit-cinematographer", "],
-    ["best-kid_electric", "],
-    ["best-kid_grip", "],
-    ["broadcasting", "],
-    ["BTS", "],
-    ["camera-op", "],
-    ["camera-op_underwater", "],
-    ["camera-pa", "],
-    ["cinematographer", "],
-    ["cinematographer_macro", "],
-    ["DIT", "],
-    ["DIY", "],
-    ["drone-op", "],
-    ["electric", "],
-    ["electrician", "],
-    ["g&e", "],
-    ["gaffer", "],
-    ["grip", "],
-    ["key-grip", "],
-    ["livestream", "],
-    ["photographer", "],
-    ["shooter", "],
-    ["steadicam", "],
-    ["switcher", "]
-];
-
-let aTagsLocIntl = [
-    ["any", "any"],
-    ["Asia", "],
-    ["Australia", "],
-    ["Austria", "],
-    ["Brazil", "],
-    ["CANADA", "Canada"],
-    ["Canada_Ontario", "],
-    ["China", "],
-    ["europe", "Europe"],
-    ["France", "],
-    ["Georgia", "],
-    ["Germany", "],
-    ["hawaii", "Hawaii"],
-    ["India", "],
-    ["Israel", "],
-    ["Italy", "],
-    ["Japan", "],
-    ["Mexico", "],
-    ["Morocco", "],
-    ["Netherlands", "],
-    ["New-Zealand", "New Zealand"],
-    ["Nicaragua", "],
-    ["prague", "Prague"],
-    ["Quatar", "],
-    ["Quatar", "],
-    ["Russia", "],
-    ["Senegal", "],
-    ["Singapore", "],
-    ["South-Africa", "South Africa"],
-    ["Spain", "],
-    ["Sweden", "],
-    ["Turkey", "],
-    ["UK", "],
-    ["UK_London", "UK - London"],
-    ["Zimbabwe", "]
-];
-
-//function fillUSA() {
-let aTagsLocUSA = [
-    ["any", "any"],
-    ["ATL", "Atlanta"],
-    ["Atlanta", "],
-    ["austin", "Austin"],
-    ["chicago", "Chicago"],
-    ["Colorado", "Colorado"],
-    ["Dc", "Washington DC"],
-    ["Denver", "],
-    ["east-coast", "East Coast"],
-    ["eastcoast", "East Coast"],
-    ["FL", "Florida"],
-    ["houston", "Houston"],
-    ["las_vegas", "Las Vegas"],
-    ["LA", "Los Angeles"],
-    ["miami", "Miami"],
-    ["Midwest", "MidWest"],
-    ["midwest", "MidWest"],
-    ["minnesota", "Minnesota"],
-    ["Missouri", "],
-    ["Nashville", "Nashville"],
-    ["Nebraska", "Nebraska"],
-    ["new_england", "New England"],
-    ["New_Mexico", "New Mexico"],
-    ["NYC", "New York City"],
-    ["Philadelphia", "],
-    ["portland", "Portland"],
-    ["Seattle", "],
-    ["seattle", "Seattle"],
-    ["SF", "an Francisco"],
-    ["Utah", "],
-];
+let dbFunctions = require ("../database");
 
 function showSubDept() {
     for (let i = 0; i < aasCinematograpy.length; i++) {
@@ -140,10 +8,21 @@ function showSubDept() {
 }
 
 $(document).ready(function () {
+    // let asCats = [];
+    // console.log ("finding subcats");
+    // asCats = dbFunctions.findSubCats ("");
+    // for (let i = 0; i < asCats.length; i++) {
+    //     $("#tag-dept").append($("<option>")
+    //         .val(asCats.sThisCat)
+    //         .html(asCats.sThisCat)
+    //     );
+    // }
+
 
     fillUSA(); // the default
 
     function handleFileSelect(evt) {
+        // event occurs after file(s) are chosen for import
         var files = evt.target.files; // FileList object
         // files is a FileList of File objects.
         for (var i = 0; files[i] !== undefined; i++) {
@@ -243,24 +122,14 @@ $(document).ready(function () {
 
     //    document.getElementById("files").addEventListener("change", handleFileSelect, false);
 
-    $("#tag-loc").empty();
-    for (let i = 0; i < aTagsLocUSA.length; i++) {
-        $("#tag-loc").append($("<option>")
-            .val(aTagsLocUSA[i][0])
-            .html(aTagsLocUSA[i][1] === " ? aTagsLocUSA[i][0] : aTagsLocUSA[i][1])
-        );
-    }
-
-    for (let i = 0; i < aTagsDept.length; i++) {
-        $("#tag-dept").append($("<option>")
-            .val(aTagsDept[i][0])
-            .html(aTagsDept[i][1] === " ? aTagsDept[i][0] : aTagsDept[i][1])
-        );
-    }
+    // $("#tag-loc").empty();
+    // for (let i = 0; i < aTagsLocUSA.length; i++) {
+    //     $("#tag-loc").append($("<option>")
+    //         .val(aTagsLocUSA[i][0])
+    //         .html(aTagsLocUSA[i][1] === " ? aTagsLocUSA[i][0] : aTagsLocUSA[i][1])
+    //     );
+    // }
 
 });
 
 function submitButton() {}
-
-
-//let aCats = [{sCat: ", asSubcat: []}];

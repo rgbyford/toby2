@@ -4,10 +4,49 @@ var aoDocs;
 var aoDocsFinal;
 var query;
 
-//readCatsFile ();
-//importNames();
-//writeCatsFile ();
-//console.log("Done");
+class AoCats {
+    constructor(sCat, asSubCat) {
+        this.sIsSubCatOf = sCat;
+        this.sThisCat = asSubCat;
+    }
+}
+
+// let aoCats = [
+//     new AoCats("c", ["1st-AC", "2nd-AC", "camera-pa"]),
+//     new AoCats("o", ["costume-assistant", "costume-designer"])
+// ];
+
+let aoCatsRead = [];
+
+const fs = require("fs");
+let fdCats;
+
+function openCatsFile(mode) {
+    fdCats = fs.openSync("categories.txt", mode);
+}
+
+function writeCatsFile(aoCats) {
+    //console.log("wCF");
+    openCatsFile("w");
+    fs.writeFileSync(fdCats, JSON.stringify(aoCats));
+    fs.closeSync(fdCats);
+}
+
+module.exports.writeFile = function () {
+    writeCatsFile(aoCatsRead);
+};
+
+module.exports.readCatsFile = function () {
+    openCatsFile("r");
+    const sCats = fs.readFileSync(fdCats, "utf8");
+    //    console.log ("during read: ", sCats);
+    aoCatsRead = JSON.parse(sCats);
+    //    console.log ("after read: ", aoCatsRead);
+    //    console.log ("1 read C: ", aoCatsRead[1].sCat, "SC: ", aoCatsRead[0].asSubCats[1]);
+    fs.closeSync(fdCats);
+    return (aoCatsRead);
+};
+
 module.exports.queryDB = function (tag1, tag2, tag3) {
     let bNoTags = false;
     aoDocs = [];
@@ -86,6 +125,15 @@ module.exports.queryDB = function (tag1, tag2, tag3) {
     return (aoDocsFinal);
 };
 
+module.exports.findSubCats = function (sCat) {
+    let asSubCats = [];
+    for (let i = 0; i < aoCatsRead.length; i++) {
+        if (aoCatsRead[i].isSubCatOf === sCat) {
+            asSubCats.push (acCatsRead.sThisCat);
+        }
+    }
+};
+
 var arrayUnique = function (arr) {
     return arr.filter(function (item, index) {
         return arr.indexOf(item) >= index;
@@ -93,35 +141,35 @@ var arrayUnique = function (arr) {
 };
 
 function buildCategories(asTag) {
-    console.log("BC: ", asTag);
+    //    console.log("BC: ", asTag);
     for (let i = 0; i < asTag.length; i++) {
-        let sTagStr;
-        // get passed "cat_subcat" or ".pp_cat_subcat"
-        if (asTag[i].startsWith(".pp_")) {
-            sTagStr = asTag[i].substr(0, 4);
-        } else {
-            sTagStr = asTag[i];
+        // first, clean up the string
+        // ignore anything that doesn't begin with .
+        if (asTag[i][0] !== ".") {
+            continue;
         }
-        // now we have cat_subcat
-        let asCatSub = sTagStr.split("_"); // Cat in the first element of the array, Sub in the second
+        // replace .. with _
+        asTag[i] = asTag[i].replace("..", "_");
+        // replace vendors with vendor
+        asTag[i] = asTag[i].replace("vendors", "vendor");
+        // replace . with _
+        asTag[i] = asTag[i].replace(/\./g, "_");
 
-        // find asCatSub[0] in the sCat array
-        // if it"s not there, create it (add a member to the aCats array)
-        // if it is there, look for aCatSub[1] in the related asSubCat array
-        // if you found it, we"re done
-        // if you didn"t find it, add it
-        //    if (find(asCatSub[0]))
-        let iCatFound;
-        iCatFound = aoCatsRead.findIndex(function (element) {
-            return (element.sCat === asCatSub[0]);
-        });
-        if (iCatFound > 0) {
-            iSubCatFound = aoCatsRead[iCatFound].asSubCats.includes(asCatSub[1]);
-            if (iSubCatFound === false) {
-                aoCatsRead[iCatFound].asSubCats.push(asCatSub[1]);
+        // console.log ("Cleaned tag: ", asTag[i]);
+        // tag is now "_cat_subcat_subcat_subcat...
+        let asCatSub = asTag[i].split("_"); // Cat in the first element of the array, Subs in the others
+
+        sIsSubCatOf = "";
+        for (let j = 0; j < asCatSub.length; j++) { // go through the cats & subCats
+            let iCatFound;
+            iCatFound = aoCatsRead.findIndex(function (element) {
+                return (element.sThisCat === asCatSub[j]);
+            });
+            if (iCatFound < 0) { // category doesn't exist - add it
+                console.log("Found a new one", asCatSub[j]);
+                aoCatsRead.push(new AoCats(sIsSubCatOf, asCatSub[j]));
             }
-        } else { // new category
-            aoCatsRead.push(new AsCats(asCatSub[0], asCatSub[1]));
+            sIsSubCatOf = asCatSub[j];
         }
     }
 }
@@ -129,7 +177,7 @@ function buildCategories(asTag) {
 module.exports.importNames = function (data) {
     var oContact = {};
     let bFirst = true;
-    console.log("importNames", data.length);
+    //    console.log("importNames", data.length);
 
     data && Object.keys(data).forEach(key => {
         const nestedContent = data[key];
@@ -139,7 +187,7 @@ module.exports.importNames = function (data) {
             contactRef = "";
             Object.keys(nestedContent).forEach(docTitle => {
                 //                docTitle = docTitle.replace(/ /g, ");        // remove spaces
-                //            console.log (docTitle);
+                //          console.log("dT: ", docTitle);
                 let sPropName = docTitle.replace(/ /g, "");
                 if (docTitle === "Given Name") {
                     givenName = nestedContent[docTitle];
@@ -204,52 +252,6 @@ module.exports.importNames = function (data) {
     return;
 };
 
-class AsCats {
-    constructor(sCat, asSubCats) {
-        this.sCat = sCat;
-        this.asSubCats = asSubCats;
-    }
-}
-
-let aoCats = [
-    new AsCats("c", ["1st-AC", "2nd-AC", "camera-pa"]),
-    new AsCats("o", ["costume-assistant", "costume-designer"])
-];
-
-let aoCatsRead = [new AsCats("", "")];
-
-const fs = require("fs");
-let fdCats;
-
-
-//console.log("before write: ", aoCats);
-//readCatsFile();
-//console.log ("2 read C: ", aoCatsRead[1].sCat, "SC: ", aoCatsRead[0].asSubCats[1]);
-
-function openCatsFile(mode) {
-    fdCats = fs.openSync("categories.txt", mode);
-}
-
-function writeCatsFile(aoCats) {
-    console.log("wCF");
-    openCatsFile("w");
-    fs.writeFileSync(fdCats, JSON.stringify(aoCats));
-    fs.closeSync(fdCats);
-}
-
-module.exports.writeFile = function () {
-    writeCatsFile(aoCats);
-};
-
-function readCatsFile() {
-    openCatsFile("r");
-    const sCats = fs.readFileSync(fdCats, "utf8");
-    //    console.log ("during read: ", sCats);
-    aoCatsRead = JSON.parse(sCats);
-    //    console.log ("after read: ", aoCatsRead);
-    //    console.log ("1 read C: ", aoCatsRead[1].sCat, "SC: ", aoCatsRead[0].asSubCats[1]);
-    fs.closeSync(fdCats);
-}
 
 
 
