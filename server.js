@@ -40,7 +40,6 @@ app.get("/contacts", function (req, res) {
     aoCats = dbFunctions.readCatsFile();
     let j = 0;
     aoCats.forEach(function (element) {
-        //        console.log (element.sIsSubCatOf);
         if (element.sIsSubCatOf === "") {
             asCatStrings[j++] = element.sCat;
         }
@@ -62,8 +61,6 @@ app.use(function (req, res, next) {
 
 // I don"t know if the "avatar" here has to match what is in the put
 app.put("/contacts/import", upload.single("avatar"), function (req, res, next) {
-    // console.log("put import contacts");
-    // console.log("file: ", req.file);
     //req.file.filename gives the file name on the server
     // req.file.originalname gives the client file name
     // console.log("body: ", req.body);
@@ -71,6 +68,13 @@ app.put("/contacts/import", upload.single("avatar"), function (req, res, next) {
     res.render("index", {});
 });
 
+
+
+app.post("/contacts/select1", function (req, res) {
+    let sSelect1 = JSON.parse(req.body.string);
+    console.log("/contacts/select1/: ", sSelect1);
+    res.render ("index", {});
+});
 
 let sLocIntl = "any";
 let sLocUSA = "any";

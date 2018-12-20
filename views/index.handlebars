@@ -21,7 +21,7 @@
 <form>
     <p>Location: </p><input type="radio" id="locUSA" name="location" value="USA" checked> USA<br>
     <input type="radio" id="locIntl" name="location" value="intl"> Intl<br>
-    <select class="selectdd" id="tag-loc">
+    <select class="selectdd" id="tag-loc" onchange=selectCat1(this.value)>
         {{#each cats}}
         <option value={{this}}>{{this}}</option>
         {{/each}}
@@ -40,16 +40,21 @@
 -->
 
 <script>
-    {{!-- let asCats = [];
-    console.log("finding subcats");
-    asCats = dbFunctions.findSubCats("");
-    for (let i = 0; i < asCats.length; i++) {
-        $("#tag-dept").append($("<option>")
-            .val(asCats.sThisCat)
-            .html(asCats.sThisCat)
-        );
-    } --}}
+    function selectCat1 (sValue) {
+        // if there is more than one subcat for this, put up a select
+        console.log ("selectCat1", sValue);
+        var opts = {
+            method: 'POST',
+            body: JSON.stringify(sValue),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        fetch('/contacts/select1', opts).then(function (response) {
+            location.reload(); // essential to refresh the page
+        });
 
+    }
     function searchButton() {
         console.log('SearchButton');
         const buttonInput = {};
