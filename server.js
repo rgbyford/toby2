@@ -1,19 +1,15 @@
-var express = require("express");
-var exphbs = require("express-handlebars");
+let express = require("express");
+let exphbs = require("express-handlebars");
+const routes = require ("./routes/routes.js");
+const path = require("path");
 
-var queryDB = require("./public/database.js");
-//var csvJson = require("./public/csvjson.js");
-
-// Set up the Express app to handle data parsing
-var app = express();
+const app = express();
 app.use(express.json());
-var PORT = process.env.PORT || 3000;
 
-app.listen(PORT, function () {
-    console.log("App listening on PORT " + PORT);
-});
+const PORT = process.env.PORT || 3000;
 
 app.use(function (req, res, next) {
+    console.log ("app next");
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -30,82 +26,11 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-csvJson = require("./public/csvjson.js");
-dbFunctions = require("./public/database.js");
-let aoCats = [{}];
+console.log ("path: ", path.join(__dirname, "/public"));
+app.use(express.static(path.join(__dirname, "/public")));
+app.use (routes);
 
-app.get("/contacts", function (req, res) {
-    let asCatStrings = [];
-    console.log("get contacts");
-    aoCats = dbFunctions.readCatsFile();
-    let j = 0;
-    aoCats.forEach(function (element) {
-        if (element.sIsSubCatOf === "") {
-            asCatStrings[j++] = element.sCat;
-        }
-    });
-    res.render("index", {
-        cats: asCatStrings
-    });
+app.listen(PORT, function () {
+    console.log("App listening on PORT " + PORT);
 });
 
-var multer = require("multer");
-var upload = multer({
-    dest: "./uploads/"
-});
-
-app.use(function (req, res, next) {
-    console.log("use: ", req.files); // JSON Object
-    next();
-});
-
-// I don"t know if the "avatar" here has to match what is in the put
-app.put("/contacts/import", upload.single("avatar"), function (req, res, next) {
-    //req.file.filename gives the file name on the server
-    // req.file.originalname gives the client file name
-    // console.log("body: ", req.body);
-    csvJson(req.file.filename);
-    res.render("index", {});
-});
-
-
-
-app.post("/contacts/select1", function (req, res) {
-    let sSelect1 = JSON.parse(req.body.string);
-    console.log("/contacts/select1/: ", sSelect1);
-    res.render ("index", {});
-});
-
-let sLocIntl = "any";
-let sLocUSA = "any";
-
-app.post("/contacts/submit", function (req, res) {
-    let oButtonInput = JSON.parse(req.body);
-    console.log(oButtonInput);
-    if (sLocIntl !== "any" && sLocIntl !== "none") {
-        sLocIntl = $("#tag-loc").val();
-    } else if (sLocIntl === "any") {
-        sLocIntl = "intl";
-    }
-    if (sLocUSA !== "any" && sLocUSA !== "none") {
-        sLocUSA = $("#tag-loc").val();
-    } else if (sLocUSA === "any") {
-        sLocUSA = "USA"; // just search for the "USA" prefix
-    }
-    if (sLocIntl === "intl") {
-        sLocUSA = "any";
-    }
-    sLocUSA = "any"; // too many without location
-    sLocIntl = "any"; // ditto
-    for (var i = 0; i < oButtonInput.boxes.length; i++) {
-        //            asSubDepts[i] = boxes[i].value;
-        aoResults = queryDB(boxes[i].value, sLocUSA, sLocIntl); // shows the results
-    }
-    //        console.log(aoResults);
-
-    res.render("index", {
-        foods: burgerForList,
-        eaten: eatenList
-    });
-    return;
-});

@@ -1,6 +1,4 @@
 <!--<link rel="stylesheet" type="text/css" href="../public/css/style.css">-->
-
-
 <style>
     .selectdd {
     display: block;
@@ -38,64 +36,3 @@
     <input type='submit' value='Upload!' />
 </form>
 -->
-
-<script>
-    function selectCat1 (sValue) {
-        // if there is more than one subcat for this, put up a select
-        console.log ("selectCat1", sValue);
-        var opts = {
-            method: 'POST',
-            body: JSON.stringify(sValue),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        fetch('/contacts/select1', opts).then(function (response) {
-            location.reload(); // essential to refresh the page
-        });
-
-    }
-    function searchButton() {
-        console.log('SearchButton');
-        const buttonInput = {};
-        buttonInput.sDept = $('#tag-dept').val();
-        buttonInput.boxes = $('input[name=cbox]:checked');
-        buttonInput.string = document.getElementById('input-button').value;
-        var opts = {
-            method: 'POST',
-            body: JSON.stringify(buttonInput),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        fetch('/contacts/search', opts).then(function (response) {
-            location.reload(); // essential to refresh the page
-        });
-    }
-
-    const importFile = (event) => {
-        console.log('iF');
-        console.log(event);
-        upload(event.target.files[0]);
-    };
-
-    const upload = (file) => {
-        console.log('upload: ', file);
-        var formData = new FormData();
-
-        formData.append('avatar', file);
-        formData.append('username', 'abc123');
-
-        fetch('contacts/import', {
-            method: 'PUT',
-            body: formData
-        })
-            .then(response => response.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', JSON.stringify(response)));
-
-    };
-
-
-
-</script>
