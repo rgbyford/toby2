@@ -1,19 +1,5 @@
 <input onchange='importFile(event)' type="file" id="files" name="files[]" multiple>
-<!--<form action='/import' method='post' enctype='multipart/form-data'>
-<input type="file" name="avatar" value="avatar">
-</form>
--->
-<!--    <select id="tag-main"></select> -->
-<!--
-<p>Department: </p><select class="selectdd" id="tag-dept"></select>
-<p>Subdept: </p>
-<div class="sub-dept">
-</div>
--->
 <form>
-<!--    <p>Location: </p><input type="radio" id="locUSA" name="location" value="USA" checked> USA<br>
-    <input type="radio" id="locIntl" name="location" value="intl"> Intl<br>
-    -->
     <br>
     {{#unless search}}
     {{#each asPrev}}
@@ -35,7 +21,6 @@
     {{#if cats12}}
     <p>And one or more sub-categories:</p>
     <select multiple="multiple" class="selectdd" id="cats12">
-        <!--<select class="selectdd" id="cats12" onchange="selectCat(this.id, this.value)">-->
         {{#each cats12}}
         <option value={{this}}>{{this}}</option>
         {{/each}}
@@ -67,16 +52,4 @@
     <p class="previous">{{this}} {{#unless @last}}AND{{/unless}}</p>
     {{/each}}
     {{/if}}
-    <!--
-    <p>Phone number:</p>
-    <input type="text" id='showface'>
-    -->
 </form>
-<!--
-<div id="stats"></div>
-<div id="name-list" class="names"></div>
-<form ref='uploadForm' id='uploadForm' action='http://localhost:3000/contacts/import' method='post' encType="multipart/form-data">
-    <input type="file" name="test.csv" />
-    <input type='submit' value='Upload!' />
-</form>
--->
