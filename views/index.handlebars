@@ -1,11 +1,3 @@
-<!--<link rel="stylesheet" type="text/css" href="../public/css/style.css">-->
-<style>
-    .selectdd {
-    display: block;
-    margin-top: 20px;
-}
-</style>
-
 <input onchange='importFile(event)' type="file" id="files" name="files[]" multiple>
 <!--<form action='/import' method='post' enctype='multipart/form-data'>
 <input type="file" name="avatar" value="avatar">
@@ -19,20 +11,47 @@
 <form>
     <p>Location: </p><input type="radio" id="locUSA" name="location" value="USA" checked> USA<br>
     <input type="radio" id="locIntl" name="location" value="intl"> Intl<br>
-    <select class="selectdd" id="tag-loc" onchange=selectCat1(this.value)>
-        {{#each cats}}
+    {{#each asPrev}}
+    <p class="previous">{{this}}</p>
+    {{/each}}
+    <select class="selectdd" id="cats11" onchange="selectCat(this.id, this.value)">
+        {{#each cats11}}
         <option value={{this}}>{{this}}</option>
         {{/each}}
     </select>
+    {{#if cats12Done}}
+    <p>{{cats12}}</p>
+    {{else}}
+    <select multiple="multiple" class="selectdd" id="cats12">
+    <!--<select class="selectdd" id="cats12" onchange="selectCat(this.id, this.value)">-->
+        {{#each cats12}}
+        <option value={{this}}>{{this}}</option>
+        {{/each}}
+    </select>
+    <input class="selectdd" type='button' onclick='nextButton("cats12")' value='Next'>
+    {{/if}}
+    {{#if cats13}}
+    <select class="selectdd" id="cats13" onchange="selectCat(this.id, this.value)">
+        {{#each cats13}}
+        <option value={{this}}>{{this}}</option>
+        {{/each}}
+    </select>
+    {{/if}}
+    {{#if cats14}}
+    <select class="selectdd" id="cats14" onchange="selectCat(this.id, this.value)">
+        {{#each cats14}}
+        <option value={{this}}>{{this}}</option>
+        {{/each}}
+    </select>
+    {{/if}}
+    <input class="selectdd" type='button' {{#if andBtnDisabled}}disabled{{/if}} onclick='andButton()' value='AND' id='and'>
     <input class="selectdd" type='button' onclick='searchButton()' value='Search' id='search'>
     <p>Phone number:</p>
     <input type="text" id='showface'>
 </form>
 <div id="stats"></div>
 <div id="name-list" class="names"></div>
-<!--
 <form ref='uploadForm' id='uploadForm' action='http://localhost:3000/contacts/import' method='post' encType="multipart/form-data">
     <input type="file" name="test.csv" />
     <input type='submit' value='Upload!' />
 </form>
--->
