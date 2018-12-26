@@ -39,22 +39,22 @@ $(document).ready(function () {
 
     var aoResults = [{}];
 
-    $("#search").click(function () {
-        const buttonInput = {};
-        buttonInput.sDept = $("#tag-dept").val();
-        buttonInput.boxes = $("input[name=cbox]:checked");
-        buttonInput.string = document.getElementById("input-button").value;
-        var opts = {
-            method: "POST",
-            body: JSON.stringify(buttonInput),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        };
-        fetch("/contacts/submit", opts).then(function (response) {
-            location.reload(); // essential to refresh the page
-        });
-    });
+    // $("#search").click(function () {
+    //     const buttonInput = {};
+    //     buttonInput.sDept = $("#tag-dept").val();
+    //     buttonInput.boxes = $("input[name=cbox]:checked");
+    //     buttonInput.string = document.getElementById("input-button").value;
+    //     var opts = {
+    //         method: "POST",
+    //         body: JSON.stringify(buttonInput),
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     };
+    //     fetch("/contacts/submit", opts).then(function (response) {
+    //         location.reload(); // essential to refresh the page
+    //     });
+    // });
 
     $(".names").on("click", (function () {
         const id = event.target.id;
@@ -116,7 +116,7 @@ function selectCat(sId, sValue) {
     obj.sId = sId;
     obj.sValue = [sValue];
     console.log("selectCat", obj);
-    console.log("JSON: ", JSON.stringify(obj));
+    //    console.log("JSON: ", JSON.stringify(obj));
     var opts = {
         method: "POST",
         body: JSON.stringify(obj),
@@ -156,7 +156,7 @@ function nextButton(sId) {
     });
 }
 
-function andButton () {
+function andButton() {
     // make the "previous" para show the selections
     // and "start again" with the select buttons
     console.log("andButton");
@@ -176,11 +176,11 @@ function andButton () {
 }
 
 function searchButton() {
-    console.log("SearchButton");
+    console.log("Search");
     const buttonInput = {};
-    buttonInput.sDept = $("#tag-dept").val();
-    buttonInput.boxes = $("input[name=cbox]:checked");
-    buttonInput.string = document.getElementById("input-button").value;
+    //    buttonInput.sDept = $("#tag-dept").val();
+    //    buttonInput.boxes = $("input[name=cbox]:checked");
+    //    buttonInput.string = document.getElementById("input-button").value;
     var opts = {
         method: "POST",
         body: JSON.stringify(buttonInput),
@@ -189,8 +189,14 @@ function searchButton() {
         }
     };
     fetch("/contacts/search", opts).then(function (response) {
-        location.reload(); // essential to refresh the page
+        //        location.reload(); // essential to refresh the page
+        return (response.text());
+    }).then(function (string) {
+        // console.log("res: ", string);
+        $("body").html(string);
+        //        location.reload(); // essential to refresh the page
     });
+
 }
 
 const importFile = (event) => {

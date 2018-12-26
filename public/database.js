@@ -47,7 +47,8 @@ module.exports.readCatsFile = function () {
     return (aoCatsRead);
 };
 
-module.exports.queryDB = function (tag1, tag2, tag3) {
+module.exports.queryDB = function (asSearch) {
+    console.log ("asSearch: ", asSearch);
     let bNoTags = false;
     aoDocs = [];
     aoDocsFinal = [];
