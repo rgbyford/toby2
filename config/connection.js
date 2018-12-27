@@ -1,14 +1,14 @@
 // Initialize Firebase
 
-const firebase = require('firebase');
+const firebase = require("firebase");
 
 const config = {
-    apiKey: 'AIzaSyCsDh3ra7faSCJycuwelMipu-6biTdqFMM',
-    authDomain: 'rgb-rps.firebaseapp.com',
-    databaseURL: 'https://rgb-rps.firebaseio.com',
-    projectId: 'rgb-rps',
-    storageBucket: 'rgb-rps.appspot.com',
-    messagingSenderId: '277284413470'
+    apiKey: "AIzaSyCsDh3ra7faSCJycuwelMipu-6biTdqFMM",
+    authDomain: "rgb-rps.firebaseapp.com",
+    databaseURL: "https://rgb-rps.firebaseio.com",
+    projectId: "rgb-rps",
+    storageBucket: "rgb-rps.appspot.com",
+    messagingSenderId: "277284413470"
 };
 firebase.initializeApp(config);
 const firestore = firebase.firestore();
@@ -18,6 +18,6 @@ const settings = {
 };
 firestore.settings(settings);
 
-const collRef = firestore.collection('Contacts');
+const collRef = firestore.collection("Contacts");
 
 module.exports = collRef;
